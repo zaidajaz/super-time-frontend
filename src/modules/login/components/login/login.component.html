@@ -1,0 +1,25 @@
+<div class="login-container">
+    <mat-card class="example-card">
+        <div class="card-container">
+            <mat-card-header>
+                <mat-card-title>Login</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <form [formGroup]="loginForm">
+                    <div class="form-container">
+                        <mat-form-field>
+                          <input [formControl]="loginFields.username" matInput placeholder="Username">
+                          <mat-error>Please enter a value for username</mat-error>
+                        </mat-form-field>
+                      
+                        <mat-form-field>
+                          <input [formControl]="loginFields.password" type="password" matInput placeholder="Password">
+                          <mat-error>Please enter a value for password</mat-error>
+                        </mat-form-field>
+                      </div>
+                </form>
+                <button routerLink="/stock" [disabled]="!loginForm.valid" mat-stroked-button color="primary">Login</button>
+              </mat-card-content>
+        </div>
+      </mat-card>
+</div>

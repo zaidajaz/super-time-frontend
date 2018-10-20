@@ -1,0 +1,16 @@
+mat-table {
+    width: 100%;
+  }
+  .table-container mat-card-header{
+    margin-bottom: 1em;
+  }
+  .spacer {
+    flex: 1 1 auto;
+  }
+  .mat-icon{
+      cursor: pointer;
+      margin-left: 1em;
+  }
+  .mat-icon:hover{
+      opacity: 0.7;
+  }
