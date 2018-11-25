@@ -1,0 +1,28 @@
+<div class="login-container">
+    <mat-card class="example-card">
+        <div class="card-container">
+            <mat-card-header>
+                <mat-card-title>New Stock Item</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <form [formGroup]="stockInEntryForm">
+                    <div class="form-container">
+                        <mat-form-field>
+                          <input [formControl]="stockinEntryFields.itemName" matInput placeholder="Item Name">
+                          <mat-error>Please enter a value for ItemName</mat-error>
+                        </mat-form-field>
+                      
+                        <!-- <mat-form-field>
+                          <input [formControl]="stockItemCreationFields.costPrice" type="number" matInput placeholder="Cost Price" (keydown.enter)="createStockItem()">
+                          <mat-error>Please enter a value for Cost Price</mat-error>
+                        </mat-form-field> -->
+                      </div>
+                </form>
+                <button (click)="createStockItem()" [disabled]="!stockInEntryForm.valid" mat-stroked-button color="primary">Create</button>
+                <span *ngIf="httpResMessage" class="spacer">
+                    <span>{{httpResMessage}}</span>
+                </span>
+              </mat-card-content>
+        </div>
+      </mat-card>
+</div>

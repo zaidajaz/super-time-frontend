@@ -1,0 +1,23 @@
+<mat-card class="table-container">
+  <mat-card-header>
+  </mat-card-header>
+  <mat-form-field>
+      <input matInput (keyup.enter)="searchWithFilter()" placeholder="Filter" [(ngModel)]="filter">
+  </mat-form-field>
+  <div class="dataTable">
+    <div class="dataTable-header dataTable-row">
+        <div class="dataTable-cell">Phone</div>
+        <div class="dataTable-cell">Name</div>
+        <div class="dataTable-cell">Address</div>
+        <div class="dataTable-cell">Email</div>
+        <div class="dataTable-cell">DOB</div>
+    </div>
+    <div *ngFor="let row of dataSource.customerList | paginate: { itemsPerPage: 10, currentPage: currentPage } ;let e = even;let i=index;" [ngClass]="{'alternate':e, 'dataTable-row': true}">
+        <div class="dataTable-cell">{{row.cust_phone}}</div>
+        <div class="dataTable-cell">{{row.cust_name}}</div>
+        <div class="dataTable-cell">{{row.cust_addr?row.cust_addr:'-'}}</div>
+        <div class="dataTable-cell">{{row.cust_email?row.cust_email:'-'}}</div>
+        <div class="dataTable-cell">{{row.cust_dob?row.cust_dob:'-'}}</div>
+    </div>
+  </div>
+  <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>

@@ -1,0 +1,40 @@
+mat-table {
+    width: 100%;
+  }
+  .table-container mat-card-header{
+    margin-bottom: 1em;
+  }
+  .spacer {
+    flex: 1 1 auto;
+  }
+  .mat-icon{
+      cursor: pointer;
+      margin-left: 1em;
+  }
+  .mat-icon:hover{
+      opacity: 0.7;
+  }
+  .dataTable{
+    width: 95%;
+    box-shadow: 1px 1px 2px #e0e0e0;
+    padding: 1em;
+  }
+  .dataTable-row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    min-height: 2em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+  }
+  .dataTable-row.alternate{
+    background-color: #f3f3f3
+  }
+  .dataTable-header{
+    text-transform: uppercase;
+    font-weight: bolder;
+  }
+  .dataTable-cell{
+    width: 7em;
+    word-break: break-all;
+  }

@@ -1,0 +1,40 @@
+<mat-card class="table-container">
+  <mat-card-header>
+      <!-- <span class="spacer"></span>
+      <mat-icon class="mat-icon" (click)="getStockGroupData">refresh</mat-icon> -->
+      <!--
+      <mat-icon class="mat-icon">edit</mat-icon>
+      <mat-icon class="mat-icon">delete</mat-icon> -->
+  </mat-card-header>
+  <mat-form-field>
+      <input matInput (keyup.enter)="searchWithFilter()" placeholder="Filter" [(ngModel)]="filter">
+  </mat-form-field>
+  <div class="dataTable">
+    <div class="dataTable-header dataTable-row">
+        <div class="dataTable-cell">Product Name</div>
+        <div class="dataTable-cell">List Price</div>
+        <div class="dataTable-cell">Quantity in Stock</div>
+        <div class="dataTable-cell">Modify Stock Quantity</div>
+    </div>
+    <div *ngFor="let row of dataSource?.stockList | paginate: { itemsPerPage: 10, currentPage: currentPage } ;let e = even;let i=index;" [ngClass]="{'alternate':e, 'dataTable-row': true}">
+      <div class="dataTable-cell">{{row.product_name}}</div>
+      <div class="dataTable-cell">{{row.product_price}}</div>
+        <div class="dataTable-cell">{{row.product_qty}}</div>
+        <div class="dataTable-cell flex-container">
+            <mat-icon *ngIf="selected!==i && showReason!==i" class="mat-icon" (click)="editClicked(i,row.inv_id)">edit</mat-icon>
+            <mat-form-field *ngIf='selected===i' class="form-field">
+                <input matInput type="number" id="qty_change_field_{{i}}" [(ngModel)]="changeValue" placeholder="Change Value" (keyup.enter)="changeStockValue(i)" autofocus>
+                <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="selected=null">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-form-field>
+            <mat-form-field *ngIf='showReason===i' class="form-field">
+                    <input matInput type="text" id="reason_change_field_{{i}}" [(ngModel)]="reasonValue" placeholder="Reason for Change?" (keyup.enter)="reasonChanged()">
+                    <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="showReason=null">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>
+        </div>
+    </div>
+  </div>
+  <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>

@@ -2,8 +2,9 @@
   <mat-toolbar-row>
       <mat-icon class="menu-icon" [matMenuTriggerFor]="menu">menu</mat-icon>
       <mat-menu #menu="matMenu">
-        <button mat-menu-item>Item 1</button>
-        <button mat-menu-item>Item 2</button>
+        <a routerLink='stock' mat-menu-item>Products</a>
+        <a routerLink='customer' mat-menu-item>Customers</a>
+        <a routerLink='' mat-menu-item>Sales</a>
       </mat-menu>
     <span>{{title}}</span>
     <span class="spacer"></span>

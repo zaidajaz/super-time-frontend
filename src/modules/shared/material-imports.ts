@@ -16,7 +16,6 @@ import {MatTableModule} from '@angular/material/table';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 
 
-
 const MATERIAL_IMPORTS = [
   MatToolbarModule,
   MatIconModule,
@@ -30,7 +29,7 @@ const MATERIAL_IMPORTS = [
   MatPaginatorModule,
   MatSortModule,
   MatTableModule,
-  MatCheckboxModule
+  MatCheckboxModule,
 ];
 
 
