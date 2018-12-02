@@ -10,7 +10,7 @@ import { reducer } from 'src/store/reducers';
 import {HttpClientModule, HttpClient} from '@angular/common/http';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import {NgxPaginationModule} from 'ngx-pagination';
-
+import {ToasterModule} from 'angular2-toaster';
 
 @NgModule({
   declarations: [
@@ -26,7 +26,8 @@ import {NgxPaginationModule} from 'ngx-pagination';
     StoreDevtoolsModule.instrument({
       maxAge: 25
     }),
-    NgxPaginationModule
+    NgxPaginationModule,
+    ToasterModule.forRoot()
   ],
   providers: [HttpClient],
   bootstrap: [AppComponent]

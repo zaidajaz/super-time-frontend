@@ -19,9 +19,9 @@
                       </div>
                 </form>
                 <button (click)="createStockItem()" [disabled]="!stockItemCreationForm.valid" mat-stroked-button color="primary">Create</button>
-                <span *ngIf="httpResMessage" class="spacer">
+                <!-- <span *ngIf="httpResMessage" class="spacer">
                     <span>{{httpResMessage}}</span>
-                </span>
+                </span> -->
               </mat-card-content>
         </div>
       </mat-card>

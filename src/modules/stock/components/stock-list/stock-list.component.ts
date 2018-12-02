@@ -4,7 +4,9 @@ import { StockActionsService } from '../../services/stock-actions.service';
 import { Store } from '@ngrx/store';
 import { ApplicationState } from 'src/store/ApplicationState';
 import { MatFormField } from '@angular/material';
+import * as ApplicationActions from '../../../../store/actions';
 import { StockQuantityModifyReq } from '../../stock.models/stock-quantity-modify-req';
+import { ToasterService } from 'angular2-toaster';
 
 @Component({
   selector: 'app-stock-list',
@@ -24,13 +26,33 @@ export class StockListComponent implements OnInit {
 
   constructor(private http: HttpClient, 
     private service: StockActionsService,
-    private store: Store<ApplicationState>
+    private store: Store<ApplicationState>,
+    private toastService: ToasterService
     ) { }
 
   ngOnInit() {
     this.store.select('reducer').
-    subscribe(data => {this.dataSource = data;console.log(data);});
-    this.service.loadProductData(null);
+    subscribe(data => {this.dataSource = data;});
+    this.loadProductData(null);
+  }
+  public loadProductData(filter) {
+    this.service.loadProductData(filter)
+    .subscribe(
+      (res:any)=>{
+        if(res && res.valid){
+          this.store.dispatch({
+            type: ApplicationActions.ADD_NEW_STOCK_SEARCH_RES,
+            payload: res.responseObj
+          });
+        }
+        else {
+          let messages = res.messages;
+          messages.forEach(message => {
+            this.toastService.pop('error', 'ERROR', message);
+          });
+        }
+      }
+  );
   }
   public changeStockValue(index){
     if(this.changeValue) { 
@@ -49,9 +71,25 @@ export class StockListComponent implements OnInit {
         modified_by: "admin",
         inv_id: this.changeId
       }
-      this.service.modifyStockQty(modifyReq);
+      this.modifyStockQty(modifyReq);
       this.selected = this.showReason = this.changeValue = this.reasonValue = null;
     }
+  }
+  public modifyStockQty(modifyReq){
+    this.service.modifyStockQty(modifyReq)
+    .subscribe(
+      (res:any)=>{
+        if(res.valid) {
+          this.loadProductData(null);
+          let messages = res.messages;
+          messages.forEach(message => this.toastService.pop('success','SUCCESS',message));
+        }
+        else {
+          let messages = res.messages;
+          messages.forEach(message => this.toastService.pop('error','ERROR',message));
+        }
+      }
+    );
   }
   public editClicked(index, id){
     this.changeValue=null;
@@ -61,6 +99,6 @@ export class StockListComponent implements OnInit {
     setTimeout(()=>document.getElementById(focusFieldId).focus(), 0);
   }
   public searchWithFilter(){
-    this.service.loadProductData(this.filter);
+    this.loadProductData(this.filter);
   }
 }

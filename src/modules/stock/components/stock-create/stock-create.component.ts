@@ -1,9 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { StockItemCreationFields } from '../../stock.models/stock.create-fields';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { StockActionsService } from '../../services/stock-actions.service';
 import { ApiUrls } from 'src/global-constants/api-urls';
+import { ToasterService } from 'angular2-toaster';
+import { ApplicationState } from 'src/store/ApplicationState';
+import * as ApplicationActions from '../../../../store/actions';
+import { Store } from '@ngrx/store';
+
 
 @Component({
   selector: 'app-stock-create',
@@ -16,8 +21,10 @@ export class StockCreateComponent implements OnInit {
   public httpResMessage:string;
   constructor(
     private http: HttpClient,
-    private stockActionsService: StockActionsService
-  ) { }
+    private stockActionsService: StockActionsService,
+    private toastService: ToasterService,
+    private store: Store<ApplicationState>
+  ) {    }
 
   ngOnInit() {
     this.stockItemCreationFields = {
@@ -44,14 +51,35 @@ export class StockCreateComponent implements OnInit {
       this.http.post(url, req).
       subscribe((res:any)=>{
         if(res.valid){
-          this.httpResMessage = "Success!";
+          this.httpResMessage = "Stock Item Created";
+          this.toastService.pop('success', 'SUCCESS', this.httpResMessage);
           this.clearForm();
-          this.stockActionsService.loadProductData(null);
+          this.loadProductData(null);
         }
         else{
           this.httpResMessage = res.messages[0];
+          this.toastService.pop('error', 'ERROR', this.httpResMessage );
         }
       });
     }
+  }
+  public loadProductData(filter) {
+    this.stockActionsService.loadProductData(filter)
+    .subscribe(
+      (res:any)=>{
+        if(res && res.valid){
+          this.store.dispatch({
+            type: ApplicationActions.ADD_NEW_STOCK_SEARCH_RES,
+            payload: res.responseObj
+          });
+        }
+        else {
+          let messages = res.messages;
+          messages.forEach(message => {
+            this.toastService.pop('error', 'ERROR', message);
+          });
+        }
+      }
+  );
   }
 }

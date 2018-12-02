@@ -16,28 +16,12 @@ export class StockActionsService {
     private http: HttpClient
     ) { }
 
-  public loadProductData(filter){
+  public loadProductData(filter): any{
     let url = filter?ApiUrls.apiBaseUrl + '/stock/search?filter='+filter:ApiUrls.apiBaseUrl+'/stock/search';
-    this.http.get(url).subscribe(
-      (res:any)=>{
-        if(res.valid){
-          this.store.dispatch({
-            type: ApplicationActions.ADD_NEW_STOCK_SEARCH_RES,
-            payload: res.responseObj
-          })
-        }
-      }
-    );
+    return this.http.get(url);
   }
 
-  public modifyStockQty(requestData: StockQuantityModifyReq) {
-    this.http.post(ApiUrls.apiBaseUrl + '/stock/modifystockquantity', requestData).
-    subscribe(
-      (res:any)=>{
-        if(res.valid) {
-          this.loadProductData(null);
-        }
-      }
-    );
+  public modifyStockQty(requestData: StockQuantityModifyReq): any {
+    return this.http.post(ApiUrls.apiBaseUrl + '/stock/modifystockquantity', requestData);
   }
 }
