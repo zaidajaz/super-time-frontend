@@ -66,7 +66,7 @@ export class StockListComponent implements OnInit {
     if(this.reasonValue) {
       let modifyReq: StockQuantityModifyReq = {
         action: this.changeValue>=0?'i':'d',
-        reason: this.reasonValue,
+        reason: this.reasonValue + ' [' + this.changeValue +']',
         qty: Math.abs(this.changeValue),
         modified_by: "admin",
         inv_id: this.changeId
